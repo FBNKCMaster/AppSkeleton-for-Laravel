@@ -33,7 +33,9 @@ protected $commands = [
 ];
 ```
 * Optional
+  
   You will need to install Jeffrey Way's laracasts/generators for more advanced option with migrations.
+  
   Then add its service provider in app/Providers/AppServiceProvider.php, like so:
 ```
 public function register()
