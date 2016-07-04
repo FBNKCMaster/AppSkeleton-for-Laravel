@@ -3,7 +3,7 @@ AppSkeleton for Laravel is a custom artisan command that helps you speed up your
 
 ## Requirements
 
-- (Optional) If you need an advanced option to create migrations with schemas, you'll need to install laracasts/generators (by Jeffrey Way). If you use Composer to install this package, it's done automatically.
+- (Optional) If you need an advanced option to create migrations with schemas, you'll need to install laracasts/generators (by Jeffrey Way). If you use Composer to install this package, it's done automatically and you have to add its service provider in app/Providers/AppServiceProvider.php 
 
 
 ## Usage
@@ -32,8 +32,17 @@ protected $commands = [
     path/to/where/you/put/AppSkeleton/AppSkeletonCommand::class
 ];
 ```
-* You will need to install Jeffrey Way's laracasts/generators for more advanced option with migrations but it's optional.
-
+* Optional
+- You will need to install Jeffrey Way's laracasts/generators for more advanced option with migrations.
+- Then add its service provider in app/Providers/AppServiceProvider.php, like so:
+```
+public function register()
+{
+    if ($this->app->environment() == 'local') {
+        $this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
+    }
+}
+```
 
 ### Step 3: That's all!
 
