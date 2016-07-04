@@ -10,8 +10,8 @@ AppSkeleton for Laravel is a custom artisan command that helps you speed up your
 
 ### Step 1: Install Through Composer
 
-```
-composer require fbnkcmaster/appskeleton --dev
+```bash
+$ composer require fbnkcmaster/appskeleton-for-laravel
 ```
 
 ### Step 2: Register the command
