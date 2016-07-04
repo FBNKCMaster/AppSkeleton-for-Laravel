@@ -115,7 +115,8 @@ path/to/file.json 			set the json file that contains the structure of the app
 
 ### Available Options
 
-```--routes 					parse routes
+```
+--routes 					parse routes
 --controllers 				parse controllers
 --models 					parse models
 --migrations 				parse migrations
