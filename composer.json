@@ -1,5 +1,5 @@
 {
-  "name": "fbnkcmaster/appskeleton-for-laravel",
+  "name": "FBNKCMaster/appskeleton-for-laravel",
   "description": "Custom artisan command for Laravel 5 to help speed up you web app development",
   "keywords": ["appskeleton", "laravel", "generator"],
   "license": "MIT",
@@ -18,7 +18,7 @@
   },
   "autoload": {
     "psr-4": {
-      "AppSkeleton\\": "src/"
+      "Fbnkcmaster\\AppskeletonForLaravel\\": "src/"
     }
   }
 }
