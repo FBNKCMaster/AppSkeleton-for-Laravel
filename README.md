@@ -21,7 +21,7 @@ This is done within the `app/Console/Kernel.php` file, like so:
 ```php
 protected $commands = [
 	// add the line below to this array
-    AppSkeleton\AppSkeletonCommand::class
+    \FBNKCMaster\AppSkeletonForLaravel\AppSkeletonCommand::class
 ];
 ```
 
