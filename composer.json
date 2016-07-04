@@ -1,6 +1,6 @@
 {
   "name": "fbnkcmaster/appskeleton-for-laravel",
-  "description": "Custom artisan command for Laravel 5's to help speed up you web app development",
+  "description": "Custom artisan command for Laravel 5 to help speed up you web app development",
   "keywords": ["appskeleton", "laravel", "generator"],
   "license": "MIT",
   "authors": [
