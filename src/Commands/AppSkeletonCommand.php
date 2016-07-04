@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace FBNKCMaster\AppSkeletonForLaravel;
 
 use Illuminate\Console\Command;
 
