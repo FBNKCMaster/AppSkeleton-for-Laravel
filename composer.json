@@ -1,7 +1,7 @@
 {
-  "name": "fbnkcmaster/appskeleton",
-  "description": "Custom artisan command for Laravel 5's",
-  "keywords": ["laravel", "appskeleton", "generator"],
+  "name": "fbnkcmaster/appskeleton-for-laravel",
+  "description": "Custom artisan command for Laravel 5's to help speed up you web app development",
+  "keywords": ["appskeleton", "laravel", "generator"],
   "license": "MIT",
   "authors": [
     {
@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=5.5.9",
     "laracasts/generators": "~1.1.3"
   },
   "require-dev": {
