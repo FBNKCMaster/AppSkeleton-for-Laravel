@@ -56,9 +56,18 @@ You're ready now. Run `php artisan` from the console, and you'll see the new com
 Put the json file whereever you can access it from the artisan command 
 ```json
 {
-	"name": "App Name",
+    "name": "App Name",
     "description": "A Little Description of The App",
     "author": "Author Name <author@email.com>",
+    "routes": [
+        {"get": "/:function () {return view('welcome');}"},
+        {"get": "home:HomeControler@index"},
+        {"get": "users/{user}:UsersController@show"},
+        {"post": "post:PostsController@store"},
+        {"post": "comment:CommentsController@store"},
+        {"resource": "post:PostsController"},
+        {"resource": "comment:CommentsController"}
+    ],
     "controllers": [
         {"name": "home"},
         {"name": "dashboard"},
@@ -71,9 +80,8 @@ Put the json file whereever you can access it from the artisan command
         {"name": "post", "migration": false},
         {"name": "comment", "migration": true}
     ],
-    "migrations": [ // Jeffrey Way's laracasts/generators needed to take care of this, 
-otherwise the schema is ignored and it will generate simple migrations files
-        {"users": "username:string, email:string:unique"},
+    "migrations": [ // Jeffrey Way's laracasts/generators needed to take care of this, otherwise the schema is ignored and it will generate simple migrations files
+        {"users_infos": "username:string, email:string:unique"},
         {"posts": "id:integer:unique, title:string"},
         {"comments": "id:integer:unique, post_id:integer:unique, text:string"}
     ],
