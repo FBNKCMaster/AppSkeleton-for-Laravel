@@ -23,7 +23,7 @@
         {"name": "post", "migration": false},
         {"name": "comment", "migration": true}
     ],
-    "migrations": [ // Jeffrey Way's laracasts/generators needed to take care of this, otherwise the schema is ignored and it will generate simple migrations files
+    "migrations": [
         {"users_infos": "username:string, email:string:unique"},
         {"posts": "id:integer:unique, title:string"},
         {"comments": "id:integer:unique, post_id:integer:unique, text:string"}
