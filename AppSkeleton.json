@@ -1,0 +1,37 @@
+{
+    "name": "App Name",
+    "description": "A Little Description of The App",
+    "author": "Author Name <author@email.com>",
+    "routes": [
+        {"get": "/:function () {return view('welcome');}"},
+        {"get": "home:HomeControler@index"},
+        {"get": "users/{user}:UsersController@show"},
+        {"post": "post:PostsController@store"},
+        {"post": "comment:CommentsController@store"},
+        {"resource": "post:PostsController"},
+        {"resource": "comment:CommentsController"}
+    ],
+    "controllers": [
+        {"name": "home"},
+        {"name": "dashboard"},
+        {"name": "users", "resource": false},
+        {"name": "posts", "resource": true},
+        {"name": "comments", "resource": true}
+    ],
+    "models": [
+        {"name": "user"},
+        {"name": "post", "migration": false},
+        {"name": "comment", "migration": true}
+    ],
+    "migrations": [ // Jeffrey Way's laracasts/generators needed to take care of this, otherwise the schema is ignored and it will generate simple migrations files
+        {"users_infos": "username:string, email:string:unique"},
+        {"posts": "id:integer:unique, title:string"},
+        {"comments": "id:integer:unique, post_id:integer:unique, text:string"}
+    ],
+    "views": ["home", "dashboard", "pages.users", "pages.posts", "pages.comments"],
+    "assets": [
+        {"sass": ["file1.sass", "file2.sass", "partials/subfile1.sass"]},
+        {"js": ["file1.js", "file2.js", "plugins/file1.js", "plugins/file2.js"]}
+    ],
+    "publics": ["folder1", "folder2", "folder2/subfolder1", "folder2/subfolder2"]
+}
