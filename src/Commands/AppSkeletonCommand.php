@@ -175,43 +175,43 @@ class AppSkeletonCommand extends Command
             if ($this->option('routes') || $this->option('controllers') || $this->option('models') || $this->option('migrations') || $this->option('views') || $this->option('assets') || $this->option('publics')) {
                 $this->optionAll = false;
             }
-
+            
             // Initiate the Progress Bar
             $this->progressBar = $this->output->createProgressBar($this->getCount());
-
+            
             // Decide what action to do
             if ($this->option('backup')) {
                 $this->action = 'backup';
             } elseif ($this->option('clear')) {
                 $this->action = 'delete';
             }
-
+            
             // Launch executions...
-            if (($this->optionAll || $this->option('routes')) && $this->jsonObj->routes) {
+            if (($this->optionAll || $this->option('routes')) && isset($this->jsonObj->routes)) {
                 $this->parseRoutes($this->jsonObj->routes);
             }
             
-            if (($this->optionAll || $this->option('controllers')) && $this->jsonObj->controllers) {
+            if (($this->optionAll || $this->option('controllers')) && isset($this->jsonObj->controllers)) {
                 $this->parseControllers($this->jsonObj->controllers);
             }
 
-            if (($this->optionAll || $this->option('models')) && $this->jsonObj->models) {
+            if (($this->optionAll || $this->option('models')) && isset($this->jsonObj->models)) {
                 $this->parseModels($this->jsonObj->models);
             }
 
-            if (($this->optionAll || $this->option('migrations')) &&$this->jsonObj->migrations) {
+            if (($this->optionAll || $this->option('migrations')) && isset($this->jsonObj->migrations)) {
                 $this->parseMigrations($this->jsonObj->migrations);
             }
 
-            if (($this->optionAll || $this->option('views')) && $this->jsonObj->views) {
+            if (($this->optionAll || $this->option('views')) && isset($this->jsonObj->views)) {
                 $this->parseViews($this->jsonObj->views);
             }
 
-            if (($this->optionAll || $this->option('assets')) && $this->jsonObj->assets) {
+            if (($this->optionAll || $this->option('assets')) && isset($this->jsonObj->assets)) {
                 $this->parseAssets($this->jsonObj->assets);
             }
 
-            if (($this->optionAll || $this->option('publics')) && $this->jsonObj->publics) {
+            if (($this->optionAll || $this->option('publics')) && isset($this->jsonObj->publics)) {
                 $this->parsePublics($this->jsonObj->publics);
             }
 
@@ -439,6 +439,80 @@ class AppSkeletonCommand extends Command
     }
 
     /**
+     * Creates a Route.
+     *
+     * @param  string  $httpVerb
+     * @param  string  $uri
+     * @param  string  $callback
+     * @return void
+     */
+    private function createRoute($httpVerb, $uri, $callback)
+    {
+        $callback = (strpos($callback, 'function') === false)?'\''.$callback.'\'':$callback;
+        $route = "\n\n".'Route::'.$httpVerb.'(\''.$uri.'\', '.$callback.');';
+        
+        $existingRoutes = file_get_contents($this->routesFile);
+
+        if (strpos($existingRoutes, 'Route::'.$httpVerb.'(\''.$uri.'\', ') === false) {
+            if (file_put_contents($this->routesFile, $route, FILE_APPEND)) {
+                $status = '  OK';
+            } else {
+                $status = 'NOT OK';
+            }
+        } else {
+            $status = '  OK';
+        }
+        
+        $this->rows[] = array('Route::'.$httpVerb.'(\''.$uri.'\',...', $status);
+    }
+
+    /**
+     * Deletes a Route.
+     *
+     * @param  string  $httpVerb
+     * @param  string  $uri
+     * @param  string  $callback
+     * @return void
+     */
+    private function deleteRoute($httpVerb, $uri, $callback)
+    {
+        $existingRoutes = file_get_contents($this->routesFile);
+        
+        $result = preg_replace("/(\n)*Route\:\:".$httpVerb."\(\'".addcslashes($uri, '/')."\'(.+)\);/", '', $existingRoutes);
+        
+        if (file_put_contents($this->routesFile, $result)) {
+            $status = '  OK';
+        } else {
+            $status = 'NOT OK';
+        }
+        
+        $this->rows[] = array('Route::'.$httpVerb.'(\''.$uri.'\',...', $status);
+    }
+
+    /**
+     * Backups a Route. Actually, it comments it.
+     *
+     * @param  string  $httpVerb
+     * @param  string  $uri
+     * @param  string  $callback
+     * @return void
+     */
+    private function backupRoute($httpVerb, $uri, $callback)
+    {
+        $existingRoutes = file_get_contents($this->routesFile);
+        
+        $result = preg_replace("/Route\:\:".$httpVerb."\(\'".addcslashes($uri, '/')."\'(.+)\);/", '/*$0*/', $existingRoutes);
+        
+        if (file_put_contents($this->routesFile, $result)) {
+            $status = '  OK';
+        } else {
+            $status = 'NOT OK';
+        }
+        
+        $this->rows[] = array('Route::'.$httpVerb.'(\''.$uri.'\',...', $status);
+    }
+
+    /**
      * Creates a Controller.
      *
      * @param  string  $name
@@ -602,80 +676,6 @@ class AppSkeletonCommand extends Command
         $filePath = (is_array($array) && !empty($array))?$array[0]:$fileName;
         $this->backupFile($filePath);
     }
-
-    /**
-     * Creates a Route.
-     *
-     * @param  string  $httpVerb
-     * @param  string  $uri
-     * @param  string  $callback
-     * @return void
-     */
-    private function createRoute($httpVerb, $uri, $callback)
-    {
-        $callback = (strpos($callback, 'function') === false)?'\''.$callback.'\'':$callback;
-        $route = "\n\n".'Route::'.$httpVerb.'(\''.$uri.'\', '.$callback.');';
-        
-        $existingRoutes = file_get_contents($this->routesFile);
-
-        if (strpos($existingRoutes, 'Route::'.$httpVerb.'(\''.$uri.'\', ') === false) {
-            if (file_put_contents($this->routesFile, $route, FILE_APPEND)) {
-                $status = '  OK';
-            } else {
-                $status = 'NOT OK';
-            }
-        } else {
-            $status = '  OK';
-        }
-        
-        $this->rows[] = array('Route::'.$httpVerb.'(\''.$uri.'\',...', $status);
-    }
-
-    /**
-     * Deletes a Route.
-     *
-     * @param  string  $httpVerb
-     * @param  string  $uri
-     * @param  string  $callback
-     * @return void
-     */
-    private function deleteRoute($httpVerb, $uri, $callback)
-    {
-        $existingRoutes = file_get_contents($this->routesFile);
-        
-        $result = preg_replace("/(\n)*Route\:\:".$httpVerb."\(\'".addcslashes($uri, '/')."\'(.+)\);/", '', $existingRoutes);
-        
-        if (file_put_contents($this->routesFile, $result)) {
-            $status = '  OK';
-        } else {
-            $status = 'NOT OK';
-        }
-        
-        $this->rows[] = array('Route::'.$httpVerb.'(\''.$uri.'\',...', $status);
-    }
-
-    /**
-     * Backups a Route. Actually, it comments it.
-     *
-     * @param  string  $httpVerb
-     * @param  string  $uri
-     * @param  string  $callback
-     * @return void
-     */
-    private function backupRoute($httpVerb, $uri, $callback)
-    {
-        $existingRoutes = file_get_contents($this->routesFile);
-        
-        $result = preg_replace("/Route\:\:".$httpVerb."\(\'".addcslashes($uri, '/')."\'(.+)\);/", '/*$0*/', $existingRoutes);
-        
-        if (file_put_contents($this->routesFile, $result)) {
-            $status = '  OK';
-        } else {
-            $status = 'NOT OK';
-        }
-        
-        $this->rows[] = array('Route::'.$httpVerb.'(\''.$uri.'\',...', $status);
-    }
     
     /**
      * Get Count for Progress Bar.
@@ -686,31 +686,31 @@ class AppSkeletonCommand extends Command
     {
         $count = 0;
 
-        if (($this->optionAll || $this->option('routes')) && $this->jsonObj->routes) {
+        if (($this->optionAll || $this->option('routes')) && isset($this->jsonObj->routes)) {
             $count += count($this->jsonObj->routes);
         }
         
-        if (($this->optionAll || $this->option('controllers')) && $this->jsonObj->controllers) {
+        if (($this->optionAll || $this->option('controllers')) && isset($this->jsonObj->controllers)) {
             $count += count($this->jsonObj->controllers);
         }
 
-        if (($this->optionAll || $this->option('models')) && $this->jsonObj->models) {
+        if (($this->optionAll || $this->option('models')) && isset($this->jsonObj->models)) {
             $count += count($this->jsonObj->models);
         }
 
-        if (($this->optionAll || $this->option('migrations')) && $this->jsonObj->migrations) {
+        if (($this->optionAll || $this->option('migrations')) && isset($this->jsonObj->migrations)) {
             $count += count($this->jsonObj->migrations);
         }
 
-        if (($this->optionAll || $this->option('views')) && $this->jsonObj->views) {
+        if (($this->optionAll || $this->option('views')) && isset($this->jsonObj->views)) {
             $count += count($this->jsonObj->views);
         }
 
-        if (($this->optionAll || $this->option('assets')) && $this->jsonObj->assets) {
+        if (($this->optionAll || $this->option('assets')) && isset($this->jsonObj->assets)) {
             $count += count($this->jsonObj->assets);
         }
 
-        if (($this->optionAll || $this->option('publics')) && $this->jsonObj->publics) {
+        if (($this->optionAll || $this->option('publics')) && isset($this->jsonObj->publics)) {
             $count += count($this->jsonObj->publics);
         }
 
