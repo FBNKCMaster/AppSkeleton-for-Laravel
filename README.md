@@ -48,7 +48,7 @@ public function register()
 
 ### Step 3: That's all!
 
-You're ready now. Run `php artisan` from the console, and you'll see the new command `AppSkeleton`.
+You're ready now. Run `php artisan` from the console, and you'll see the new command `make:appskeleton` in the `make:*` namespace section.
 
 ## Examples
 
@@ -98,32 +98,32 @@ Put the json file whereever you can access it from the artisan command
 
 Generate everything in the json file (where AppSkeleton.json in the root of your Laravel application)
 ```bash
-$ php artisan AppSkeleton
+$ php artisan make:appskeleton
 ```
 
 You can specify the path to your json file
 ```bash
-$ php artisan AppSkeleton path/to/your/appskeleton_file.json
+$ php artisan make:appskeleton path/to/your/appskeleton_file.json
 ```
 
 Genereate just Controllers and Views
 ```bash
-$ php artisan AppSkeleton --controllers --views
+$ php artisan make:appskeleton --controllers --views
 ```
 
 Backup what was generated
 ```bash
-$ php artisan AppSkeleton [--controllers] [--views] --backup
+$ php artisan make:appskeleton [--controllers] [--views] --backup
 ```
 
 Delete what was generated
 ```bash
-$ php artisan AppSkeleton [--controllers] [--views] --clear
+$ php artisan make:appskeleton [--controllers] [--views] --clear
 ```
 
 Force delete generated files and directories even the backups
 ```bash
-$ php artisan AppSkeleton [--controllers] [--views] --clear --f
+$ php artisan make:appskeleton [--controllers] [--views] --clear --f
 ```
 
 ### Available Arguments
