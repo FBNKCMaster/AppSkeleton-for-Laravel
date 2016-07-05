@@ -11,7 +11,6 @@ class AppSkeletonCommand extends Command
      *
      * @var string
      */
-    // [default: "AppSkeleton.json"]
     protected $signature = 'make:appskeleton
                             {file=AppSkeleton.json : The path to the json file that contains the application\'s structure to generate}
                             {--routes : Generate only routes}
