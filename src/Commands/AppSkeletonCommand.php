@@ -11,14 +11,26 @@ class AppSkeletonCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'AppSkeleton {file=AppSkeleton.json} {--routes} {--controllers} {--models} {--migrations} {--views} {--assets} {--publics} {--b|backup} {--c|clear} {--f|force}';
+    // [default: "AppSkeleton.json"]
+    protected $signature = 'make:appskeleton
+                            {file=AppSkeleton.json : The path to the json file that contains the application\'s structure to generate}
+                            {--routes : Generate only routes}
+                            {--controllers : Generate only controllers}
+                            {--models : Generate only models}
+                            {--migrations : Generate only migrations}
+                            {--views : Generate only views}
+                            {--assets : Generate only assets}
+                            {--publics : Generate only publics}
+                            {--b|backup : Backup generated files}
+                            {--c|clear : Delete generated files & directories}
+                            {--f|force : Use it with --clear to force delete even backups}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate the skeleton (structure of files and directories) you\'ll need for your app based on the json file you provide';
+    protected $description = 'Generate the structure of your application (files & directories) based on a json file';
 
     /**
      * An array to handle logs output.
