@@ -57,8 +57,6 @@ Put the json file whereever you can access it from the artisan command
 ```json
 {
     "name": "App Name",
-    "description": "A Little Description of The App",
-    "author": "Author Name <author@email.com>",
     "routes": [
         {"get": "/:function () {return view('welcome');}"},
         {"get": "home:HomeControler@index"},
