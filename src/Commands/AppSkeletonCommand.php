@@ -187,6 +187,8 @@ class AppSkeletonCommand extends Command
                 $this->optionAll = false;
             }
             
+            if (isset($this->jsonObj->name)) $this->info('Building '.$this->jsonObj->name.'...');
+            
             // Initiate the Progress Bar
             $this->progressBar = $this->output->createProgressBar($this->getCount());
             
